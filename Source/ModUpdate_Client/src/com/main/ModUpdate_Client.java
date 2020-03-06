@@ -107,6 +107,7 @@ public class ModUpdate_Client {
     public static void main(String[] args) throws Exception {
     	//配置ini
     	read_ini();
+    	/*
     	Scanner scanner = new Scanner(System.in);
     	System.out.println("请输入您希望更新的项目代码，按回车键确认");
     	System.out.println("1------更新mods文件------------");
@@ -114,10 +115,14 @@ public class ModUpdate_Client {
     	System.out.println("3------更新shaderpacks文件-----");
     	System.out.print("-->");
     	update_mode = scanner.nextInt();
+    	
     	if(update_mode != 1 && update_mode != 2 && update_mode != 3){
     		//更新项目不合法，异常退出
     		System.exit(-1);
     	}
+    	*/
+    	update_mode = 1;
+    	
     	//对接服务器
         Socket socket = new Socket();
         socket.connect(new InetSocketAddress(Server_IP, Server_Port));
@@ -157,13 +162,13 @@ public class ModUpdate_Client {
         in.close();
         out.close();
         socket.close();
-        /*
+        
         //list查重
         System.out.println("输出add_list");
         for(int test_i = 0;test_i < mod_add_list.size() ; test_i ++){
         	System.out.println(mod_add_list.get(test_i));
         }
-        System.out.println("add_list输出完毕");*/
+        System.out.println("add_list输出完毕");
         System.out.println("共计"+mod_name_list.size()+"个文件项目");
         //下载全部mod
         DownLoad_ALL_MOD();
@@ -191,13 +196,26 @@ public class ModUpdate_Client {
 	    	out.write((mod_add_list.get(index)+"\r\n").getBytes());
 	    	//创建输文件出流，指定文件输出地址
 	    	String path = "";
-	    	if(update_mode == 1){
-	    		path = mods_files+mod_add_list.get(index).split("mods/")[1];
-	    	}else if(update_mode == 2){
-	    		path = config_files+mod_add_list.get(index).split("config/")[1];
-	    	}else if(update_mode == 3){
-	    		path = shaderpacks_files+mod_add_list.get(index).split("shaderpacks/")[1];
+	    	try{
+		    	if(update_mode == 1){
+		    		path = mods_files+mod_add_list.get(index).split("mods/")[1];
+		    	}else if(update_mode == 2){
+		    		path = config_files+mod_add_list.get(index).split("config/")[1];
+		    	}else if(update_mode == 3){
+		    		path = shaderpacks_files+mod_add_list.get(index).split("shaderpacks/")[1];
+		    	}
+	    	}catch(Exception spilt_err){
+	    		//未能分割成功
+	    		if(update_mode == 1){
+	    			//System.out.println(mod_add_list.get(index));
+		    		path = mods_files+mod_add_list.get(index).split("mods\\\\")[1];
+		    	}else if(update_mode == 2){
+		    		path = config_files+mod_add_list.get(index).split("config\\\\")[1];
+		    	}else if(update_mode == 3){
+		    		path = shaderpacks_files+mod_add_list.get(index).split("shaderpacks\\\\")[1];
+		    	}
 	    	}
+	    	//System.out.println(path);
 	    	System.out.println("正在下载"+mod_add_list.size()+"个文件中的第"+(index+1)+"个文件项目");
 	    	newFile(path);
 	        OutputStream file_out = new FileOutputStream(path);
