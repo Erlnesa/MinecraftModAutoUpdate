@@ -107,7 +107,7 @@ public class ModUpdate_Client {
     public static void main(String[] args) throws Exception {
     	//配置ini
     	read_ini();
-    	/*
+    	
     	Scanner scanner = new Scanner(System.in);
     	System.out.println("请输入您希望更新的项目代码，按回车键确认");
     	System.out.println("1------更新mods文件------------");
@@ -120,7 +120,7 @@ public class ModUpdate_Client {
     		//更新项目不合法，异常退出
     		System.exit(-1);
     	}
-    	*/
+    	
     	update_mode = 1;
     	
     	//对接服务器
@@ -162,7 +162,7 @@ public class ModUpdate_Client {
         in.close();
         out.close();
         socket.close();
-        
+        /*
         //list查重
         System.out.println("输出add_list");
         for(int test_i = 0;test_i < mod_add_list.size() ; test_i ++){
@@ -170,6 +170,8 @@ public class ModUpdate_Client {
         }
         System.out.println("add_list输出完毕");
         System.out.println("共计"+mod_name_list.size()+"个文件项目");
+        */
+        
         //下载全部mod
         DownLoad_ALL_MOD();
     }
